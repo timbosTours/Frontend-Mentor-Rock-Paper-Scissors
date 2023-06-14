@@ -48,12 +48,12 @@ export default function Game() {
         (playerChoice === "scissors" && newComputerChoice === "paper")
         ) {
         setScore((prevScore) => prevScore + 1);  // Player wins, increment score
-        setResult("You win!");
+        setResult("You win");
         } else if (playerChoice === newComputerChoice) {
-        setResult("It's a draw!");  // Draw
+        setResult("It's a draw");  // Draw
         } else {
         setScore((prevScore) => (prevScore > 0 ? prevScore - 1 : 0));  // Player loses, decrement score
-        setResult("You lose!");
+        setResult("You lose");
         }
     };
 
@@ -77,8 +77,8 @@ return (
         <div className="flex flex-col items-center justify-center min-h-screen py-2">
         <h1 className="text-6xl">Rock Paper Scissors</h1>
         <p className="text-2xl">Score: {score}</p>
-        {gameStarted && <p className="text-2xl mt-6">You chose: {playerChoice}</p>}
-        {gameStarted && <p className="text-2xl mt-6">Computer chose: {computerChoice || '...'}</p>}
+        {gameStarted && <p className="text-2xl mt-6">You picked: {playerChoice}</p>}
+        {gameStarted && <p className="text-2xl mt-6">The House Picked: {computerChoice || '...'}</p>}
         {computerChoice && <p className="text-2xl mt-6">{result}</p>}
         {!gameStarted && (
             <div className="flex mt-6">
