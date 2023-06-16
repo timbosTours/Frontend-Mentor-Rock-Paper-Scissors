@@ -1,16 +1,22 @@
 'use client'
 
 import { useState, useEffect } from "react"
+import RockImage from "./RockImage";
+import PaperImage from "./PaperImage";
+import ScissorImage from "./ScissorImage";
+
+// Define types for game choices
+type GameChoice = "rock" | "paper" | "scissors"; 
 
 // Array of game choices
-const choices = ["rock", "paper", "scissors"];
+const choices: GameChoice[] = ["rock", "paper", "scissors"];
 
 export default function Game() {
 // State variables
-  const [score, setScore] = useState(0);
+    const [score, setScore] = useState(0);
  // Player's score
-  const [playerChoice, setPlayerChoice] = useState<string | null>(null);  // Player's choice
-  const [computerChoice, setComputerChoice] = useState<string | null>(null);  // Computer's choice
+  const [playerChoice, setPlayerChoice] = useState<GameChoice | null>(null);  // Player's choice
+  const [computerChoice, setComputerChoice] = useState<GameChoice | null>(null);  // Computer's choice
   const [result, setResult] = useState<string | null>(null);  // Result of the game
     const [gameStarted, setGameStarted] = useState(false);  // Whether the game has started
     
@@ -40,6 +46,18 @@ export default function Game() {
         }
     }, [playerChoice]);
 
+    // function to display player choices/house choice images
+    const getChoiceImage = (choice: string | null) => {
+        if (choice === "rock") {
+            return <RockImage/>;
+        } else if (choice === "paper") {
+            return <PaperImage/>;
+        } else if (choice === "scissors") {
+            return <ScissorImage/>;
+        }
+        return "";
+        };
+
     // Function to calculate the result of the game
     const calculateResult = (newComputerChoice: string) => {
         if (
@@ -58,7 +76,7 @@ export default function Game() {
     };
 
     // Function to start the game
-    const playGame = (choice: string) => {
+    const playGame = (choice: GameChoice) => {
         setPlayerChoice(choice);  // Set player's choice
         setGameStarted(true);  // Start the game
         setComputerChoice(null);  // Reset computer's choice
@@ -74,33 +92,42 @@ export default function Game() {
     };
 
 return (
-        <div className="flex flex-col items-center justify-center min-h-screen py-2">
-        <h1 className="text-6xl">Rock Paper Scissors</h1>
-        <p className="text-2xl">Score: {score}</p>
-        {gameStarted && <p className="text-2xl mt-6">You picked: {playerChoice}</p>}
-        {gameStarted && <p className="text-2xl mt-6">The House Picked: {computerChoice || '...'}</p>}
+    <div className="flex flex-col items-center justify-center py-2 ">
+        <div className="border-2 rounded-md text-left h-24 w-56 mt-4 px-1 flex space-x-10">
+        <h1 className="py-7 ml-4 text-white uppercase leading-3 font-semibold">Rock <br /> Paper <br /> Scissors</h1>
+            <p className="mt-3 py-4 bg-white h-16 w-16 rounded-md">Score <br /> {score}</p>
+        </div>
+        {gameStarted && (
+        <p className="text-2xl mt-6">
+            You Picked: {getChoiceImage(playerChoice)} 
+        </p>
+        )}
+        {gameStarted && (
+        <p className="text-2xl mt-6">
+            The House Picked: {getChoiceImage(computerChoice)}
+        </p>
+        )}
         {computerChoice && <p className="text-2xl mt-6">{result}</p>}
         {!gameStarted && (
             <div className="flex mt-6">
-            {choices.map((choice, index) => (
-                <button
-                key={index}
-                className="mx-2 p-2 border-2 border-gray-300 rounded-md"
-                onClick={() => playGame(choice)}
-                >
-                {choice}
-                </button>
-            ))}
+            {!gameStarted && (
+            <div className="flex mt-6">
+            <button onClick={() => playGame("rock")}><RockImage/></button>
+            <button onClick={() => playGame("paper")}><PaperImage/></button>
+            <button onClick={() => playGame("scissors")}><ScissorImage/></button>
+        </div>
+)}
+
             </div>
         )}
         {computerChoice && (
             <button
-            className="mt-6 p-2 border-2 border-gray-300 rounded-md"
-            onClick={resetGame}
+                className="mt-6 p-2 border-2 border-gray-300 rounded-md"
+                onClick={resetGame}
             >
-            Play Again
+                Play Again
             </button>
-        )}
+            )}
         </div>
     );
 }
