@@ -4,6 +4,7 @@ import { useState, useEffect } from "react"
 import RockImage from "./RockImage";
 import PaperImage from "./PaperImage";
 import ScissorImage from "./ScissorImage";
+import BgTriangleImage from "./BgTriangleImage";
 
 // Define types for game choices
 type GameChoice = "rock" | "paper" | "scissors"; 
@@ -92,11 +93,14 @@ export default function Game() {
     };
 
 return (
-    <div className="flex flex-col items-center justify-center py-2 ">
-        <div className="border-2 rounded-md text-left h-24 w-56 mt-4 px-1 flex space-x-10">
-        <h1 className="py-7 ml-4 text-white uppercase leading-3 font-semibold">Rock <br /> Paper <br /> Scissors</h1>
-            <p className="mt-3 py-4 bg-white h-16 w-16 rounded-md">Score <br /> {score}</p>
-        </div>
+    <div className="flex flex-col items-center justify-center py-2 mx-6">
+        <div className="border-2 rounded-md text-left h-24 mt-4 px-1 flex justify-between" style={{width: "95vw"}}>
+    <h1 className="py-7 ml-4 text-white uppercase leading-3 font-semibold">Rock <br /> Paper <br /> Scissors</h1>
+            <p className="flex flex-col mt-3 mr-4 px-3 pt-2 bg-white h-16 w-16 rounded-md text-xs text-blue-800">SCORE <span className="text-3xl font-bold text-gray-600 mx-auto"> {score}</span>
+        </p>
+</div>
+
+
         {gameStarted && (
         <p className="text-2xl mt-6">
             You Picked: {getChoiceImage(playerChoice)} 
@@ -109,7 +113,8 @@ return (
         )}
         {computerChoice && <p className="text-2xl mt-6">{result}</p>}
         {!gameStarted && (
-            <div className="flex mt-6">
+            <div className="flex mt-16 justify-center">
+                <span className="absolute"><BgTriangleImage/></span>
             {!gameStarted && (
             <div className="flex mt-6">
             <button onClick={() => playGame("rock")}><RockImage/></button>
